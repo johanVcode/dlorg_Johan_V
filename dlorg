@@ -1,1 +1,13 @@
 #!/usr/bin/env bash
+set -u
+
+# need to add "events" to inotifywait 
+# to check for the events i need. check below.
+
+#moved_to
+#close_write
+
+#source and destionation folders (DRY)
+source_folder="$HOME/Downloads"
+destination_folder="$source_folder/Sorted"
+
