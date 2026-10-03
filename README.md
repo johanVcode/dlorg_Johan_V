@@ -39,3 +39,11 @@ opened in writable mode. since even when we use the command "touch" or "cp" it m
 file, but it still opens in writable mode, so the alarm goes off for the folder we watching.
 had to make a double check with claude and pushed back, but got a good deeper explanation
 for it.
+
+### comment3
+learned that `set -u` is a great seatbelt for variables that are not present. 
+Decisions: linked the paths (dry) +  added `set -u` why? if Downloads ever moves
+i can just change 1 lineand Sorted follows. seperate paths risk a silent bug
+where files get sorted into the old folder instead. then ill be debugging and trying
+to find this bug, wasting time. `set -u` stops the script loudly if a variable name is mistyped
+so my mistakes become loud instead of silent.
