@@ -10,4 +10,17 @@ set -u
 #source and destionation folders (DRY)
 source_folder="$HOME/Downloads"
 destination_folder="$source_folder/Sorted"
+file_name="example.pdf" #TODO: replace with name from inotifywait
+base_name="${file_name%.*}" #keeps the filename by removing file extension
+extension="${file_name##*.}" #keeps the extension of the file
+echo "$extension"
 
+#while name_file
+#do name_file
+#done 
+
+
+# check file type and decide basket (or other)
+# make sure the basket exist, if not make basket on demand
+# same name check, if same name add numeric value to sort same name files.
+# move the files
