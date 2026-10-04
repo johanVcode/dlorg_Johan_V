@@ -48,3 +48,19 @@ i can just change 1 lineand Sorted follows. seperate paths risk a silent bug
 where files get sorted into the old folder instead. then ill be debugging and trying
 to find this bug, wasting time. `set -u` stops the script loudly if a variable name is mistyped
 so my mistakes become loud instead of silent.
+
+### comment4
+today i learned that variables need to be set so the whole script can work, logically what i need to do
+
+- check file type and decide basket (or other)
+- make sure the basket exist, if not make the basket on demand
+- same name check, if same name add numeric value to sort same name files
+- move the files
+
+first i was kinda lost, i wondered what is a variable? then i realised very quick that its a box, and variables can be put inside a box to, boxception.
+
+learned also that i could put aliases on things, aka labels to use them with a simpler name than to type them out constantly
+which saves time and meets the DRY conditions.
+
+also realised some tips and tricks with `#*.` & `%.*` simply put it removes names and keeps whats after ".pdf"
+or the other way around to remove extension and keep name, but realised a bug, what happens if names are more complex? like a naming convention of "name.7/07.20XX.jpeg" so what do we do? we use a double hash `##*.` keeps whats after the last dot so we can edit out weird naming conventions and keep the file extension.

@@ -13,7 +13,7 @@ destination_folder="$source_folder/Sorted"
 file_name="example.pdf" #TODO: replace with name from inotifywait
 base_name="${file_name%.*}" #keeps the filename by removing file extension
 extension="${file_name##*.}" #keeps the extension of the file
-echo "$extension"
+#debug: echo "$extension" && echo "$base_name"
 
 #while name_file
 #do name_file
