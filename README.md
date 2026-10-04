@@ -64,3 +64,5 @@ which saves time and meets the DRY conditions.
 
 also realised some tips and tricks with `#*.` & `%.*` simply put it removes names and keeps whats after ".pdf"
 or the other way around to remove extension and keep name, but realised a bug, what happens if names are more complex? like a naming convention of "name.7/07.20XX.jpeg" so what do we do? we use a double hash `##*.` keeps whats after the last dot so we can edit out weird naming conventions and keep the file extension.
+
+Used Claude as a tutor in hints-only mode. Two lines were given on request (the base_name split and the while condition); the rest I worked out from hints and man pages and testing myself using google.
