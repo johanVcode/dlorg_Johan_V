@@ -7,13 +7,41 @@ set -u
 #moved_to
 #close_write
 
-#source and destionation folders (DRY)
+#settings
 source_folder="$HOME/Downloads"
 destination_folder="$source_folder/Sorted"
-file_name="example.pdf" #TODO: replace with name from inotifywait
+other_folder="$destination_folder/Other"
+
+#the file sorting
+function file_sorting {
+file_name="$1" #TODO: replace with name from inotifywait
 base_name="${file_name%.*}" #keeps the filename by removing file extension
 extension="${file_name##*.}" #keeps the extension of the file
-#debug: echo "$extension" && echo "$base_name"
+
+if [ "$file_name" = "$extension" ]; then
+    basket_folder="Other"
+    echo "content in $basket_folder in transit"
+else 
+    case "$extension" in
+        jpg|jpeg|png|gif|webp|svg|bmp) basket_folder="Pictures" ;;
+        mp4|mkv|avi|mov|webm) basket_folder="videos" ;;
+        mp3|flac|wav|ogg|m4a) basket_folder="Audio" ;;
+        pdf|doc|docx|odt|txt|md|rtf) basket_folder="Documents" ;;
+        xls|xlsx|ods|csv|ppt|pptx) basket_folder="Spreadsheets/Slides" ;;
+        zip|tar|gz|7z|rar|xz) basket_folder="Archives" ;;
+        deb|rpm|exe|msi|appimage|iso) basket_folder="Installers" ;;
+        sh|py|js|html|css|c|json|cpp|cs) basket_folder="Code" ;;
+        *) basket_folder="Other" ;;
+    esac
+fi
+
+mkdir -p "$destination_folder/$basket_folder"
+}
+#fake jobs to debugg
+file_sorting "cat.jpg"
+file_sorting "name.date.2005.pdf"
+file_sorting "song.mp3"
+file_sorting "README"
 
 #while name_file
 #do name_file
