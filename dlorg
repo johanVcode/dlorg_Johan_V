@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 set -u
 
-# need to add "events" to inotifywait 
-# to check for the events i need. check below.
-
-#moved_to
-#close_write
-
-#echo statment - starting of the script
+#echo statement - starting of the script
 echo "Script dlorg started"
 
 #settings
@@ -17,11 +11,12 @@ other_folder="$destination_folder/Other"
 
 #the file sorting
 function file_sorting {
-#uppercase_name="" # TODO: lowercase copy of extension for VIP check (JPG vs jpg)
+##uppercase_name="" #IMPROVEMENT: lowercase copy of extension for VIP check (JPG vs jpg)
 file_name="$1" #inotifywait - the doorbell
 base_name="${file_name%.*}" #keeps the filename by removing file extension
 extension="${file_name##*.}" #keeps the extension of the file
-#extension="${uppercase_name##*.}"
+##extension="${uppercase_name##*.}" #IMPROVEMENT: uppercase names/extension get renamed
+
 if [ "$file_name" = "$extension" ]; then
     basket_folder="Other"
 else 
@@ -41,20 +36,24 @@ fi
 mkdir -p "$destination_folder/$basket_folder"
 mv "$source_folder/$file_name" "$destination_folder/$basket_folder/"
 }
-#fake jobs to debugg
-file_sorting "cat.jpg"
-file_sorting "name.date.2005.pdf"
-file_sorting "song.mp3"
-file_sorting "README"
-file_sorting "data.data"
 
 #echo statement - the script is running
 echo "dlorg ready: Listening for close_write/moved_to events in $source_folder"
 
-#while name_file
-#do name_file
-#done 
+#the bell to tell bouncer to start sorting the files that enter Downloads
+inotifywait -me moved_to,close_write --format '%f' "$source_folder" |
+while read new_file; do
+    file_sorting "$new_file"
+done 
 
+#fake jobs for debugging
+##file_sorting "cat.jpg"
+##file_sorting "name.date.2005.pdf"
+##file_sorting "song.mp3"
+##file_sorting "README"
+##file_sorting "data.data"
+
+# monitor folder and have bouncer sort
 # make sure the basket exist, if not make basket on demand
 # same name check, if same name add numeric value to sort same name files.
 # move the files
