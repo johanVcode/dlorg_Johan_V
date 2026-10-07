@@ -39,6 +39,7 @@ else
 fi
 
 mkdir -p "$destination_folder/$basket_folder"
+mv "$source_folder/$file_name" "$destination_folder/$basket_folder/"
 }
 #fake jobs to debugg
 file_sorting "cat.jpg"
