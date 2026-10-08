@@ -1,68 +1,89 @@
-# dlorg
+# dlorg – Downloads organizer
 
-## Task 0
-### 0a
-dlorg repo made > dlorg_Johan_V
+dlorg keeps your `~/Downloads` folder tidy. Every time a file finishes downloading
+or is moved into Downloads, dlorg moves it into a matching folder inside `~/Downloads/Sorted/`.
+It runs in the background as a systemd user service, so you never have to start it yourself.
 
-### 0b
-added .gitignore a finshed tempplate from github to ignore all vim files in the background.
-used claude LLM on how to add the ignore for vim files, since i already know how to start
-and make a repo.
+<!-- screenshot: messy Downloads before / sorted folders after -->
 
-### 0c
-made a file called dlorg, empty file for linux with previliges changed from 664 to 744, so
-people can read it but not execute or change it except for me.
+## Where files go
 
-### 0d
-chmod 744 dlorg and understood now what 755 came from in chmod and now got a deeper understanding
-how files work, and it made me wonder instead of -rwx etc why not as numbers for easier to read?
-apparently you can change the way how you look at previliges to with a diffrent command where
-it shows numbers. like how i changed mine to 744 from 664.
+| Folder | File types |
+|---|---|
+| Pictures | jpg, jpeg, png, gif, webp, svg, bmp |
+| Videos | mp4, mkv, avi, mov, webm |
+| Audio | mp3, flac, wav, ogg, m4a |
+| Documents | pdf, doc, docx, odt, txt, md, rtf |
+| Spreadsheets_Slides | xls, xlsx, ods, csv, ppt, pptx |
+| Archives | zip, tar, gz, 7z, rar, xz |
+| Installers | deb, rpm, exe, msi, appimage, iso |
+| Code | sh, py, js, html, css, c, json, cpp, cs |
+| Other | everything else, and files with no extension |
 
-## Task 1
-### comment1
-after installing inotify-tools i checked with "dpkg -L inotify-tools" to check
-what tools i have under my belt (inotify-tools = toolbelt) and learned that i have 2 tools
-inotifywait and inotifywatch. got corrected by claude LLM that i actually have 4 tools
-inotifywait, inotifywatch, fsnotifywait, fsnotifywatch. and i learned that its a diffrence.
-fs-tools are more system wide while i-tools are more specific like this folder or file.
+Folders are created automatically the first time they're needed, and recreated if deleted.
 
-### comment2
-`create` - a file or directory was created within a watched directory
-`moved_to` - a file or directory was moved into a watched directory
+## Requirements
 
-from the looks of it i need these 2 events, double checking
-if i need more events so i dont get bugs down the line.
+- Linux with systemd (tested on Debian 13)
+- `inotify-tools`: `sudo apt install inotify-tools`
 
-`close_write` couldnt understand why `close_write`  was needed over "close" but was pointed out in ma>
-that close_write watched file or file within a watched directory was closed, AFTER being
-opened in writable mode. since even when we use the command "touch" or "cp" it makes an empty
-file, but it still opens in writable mode, so the alarm goes off for the folder we watching.
-had to make a double check with claude and pushed back, but got a good deeper explanation
-for it.
+## Installation
 
-### comment3
-learned that `set -u` is a great seatbelt for variables that are not present. 
-Decisions: linked the paths (dry) +  added `set -u` why? if Downloads ever moves
-i can just change 1 lineand Sorted follows. seperate paths risk a silent bug
-where files get sorted into the old folder instead. then ill be debugging and trying
-to find this bug, wasting time. `set -u` stops the script loudly if a variable name is mistyped
-so my mistakes become loud instead of silent.
+1. Clone the repo:
+   `git clone https://github.com/johanVcode/dlorg_Johan_V.git`
+2. Copy the script into your personal bin folder and make it read + run only:
+```bash
+   mkdir -p ~/.local/bin
+   cp ~/dlorg_Johan_V/dlorg ~/.local/bin/dlorg
+   chmod 544 ~/.local/bin/dlorg
+```
+3. Install the service file:
+```bash
+   mkdir -p ~/.config/systemd/user
+   cp ~/dlorg_Johan_V/dlorg.service ~/.config/systemd/user/
+```
+4. Turn it on (starts now and at every login):
+```bash
+   systemctl --user daemon-reload
+   systemctl --user enable --now dlorg
+```
+5. Optional: start dlorg at boot, even before you log in:
+   `loginctl enable-linger`
 
-### comment4
-today i learned that variables need to be set so the whole script can work, logically what i need to do
+## Using it
 
-- check file type and decide basket (or other)
-- make sure the basket exist, if not make the basket on demand
-- same name check, if same name add numeric value to sort same name files
-- move the files
+Nothing to do: download or move a file into `~/Downloads` and it gets sorted.
 
-first i was kinda lost, i wondered what is a variable? then i realised very quick that its a box, and variables can be put inside a box to, boxception.
+![cat.jpg and testing123.png sorted into "Pictures"]()
 
-learned also that i could put aliases on things, aka labels to use them with a simpler name than to type them out constantly
-which saves time and meets the DRY conditions.
+## Checking that it runs
 
-also realised some tips and tricks with `#*.` & `%.*` simply put it removes names and keeps whats after ".pdf"
-or the other way around to remove extension and keep name, but realised a bug, what happens if names are more complex? like a naming convention of "name.7/07.20XX.jpeg" so what do we do? we use a double hash `##*.` keeps whats after the last dot so we can edit out weird naming conventions and keep the file extension.
+- Status: `systemctl --user status dlorg` → should say **active (running)**
+- Live log: `journalctl --user -u dlorg -f` (Ctrl+C to exit)
 
-Used Claude as a tutor in hints-only mode. Two lines were given on request (the base_name split and the while condition); the rest I worked out from hints and man pages and testing myself using google.
+<!-- screenshot: status output -->
+
+## Stopping / removing
+
+- Stop for now: `systemctl --user stop dlorg`
+- Stop starting automatically: `systemctl --user disable dlorg`
+
+## Updating
+
+After changing the script in the repo, copy it again:
+```bash
+chmod u+w ~/.local/bin/dlorg
+cp ~/dlorg_Johan_V/dlorg ~/.local/bin/dlorg
+chmod 544 ~/.local/bin/dlorg
+systemctl --user restart dlorg
+```
+
+## Known limitations
+
+- A file with the same name as one already in a folder **overwrites** it.
+- Uppercase extensions (`PHOTO.JPG`) go to Other.
+- Files already in Downloads before dlorg starts are not sorted.
+- Sorting is by extension only (a MIME fallback is planned).
+
+## Dev notes
+See [Notes.md](Notes.md) for how dlorg was built, my decisions, and what i learned.
