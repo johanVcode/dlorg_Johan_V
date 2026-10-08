@@ -59,6 +59,7 @@ Folders are created automatically when needed, and recreated if deleted.
 
 ## Using it
 
+If a file with the same name already exists, the new one gets a number. cat.jpg → cat_1.jpg.
 **Sorting:** download or move a file into `~/Downloads` and it gets sorted.
 ![cat.jpg and testing123.png sorted into "Pictures"](screenshots/Sorted-pictures-2026-10-08.png)
 
@@ -86,7 +87,6 @@ systemctl --user restart dlorg
 
 ## Known limitations
 
-- A file with the same name as one already in a folder **overwrites** it.
 - Uppercase extensions (`PHOTO.JPG`) go to Other.
 - Files already in Downloads before dlorg starts are not sorted.
 - Sorting is by extension only (a MIME fallback is planned).
