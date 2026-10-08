@@ -4,7 +4,11 @@ dlorg keeps your `~/Downloads` folder tidy. Every time a file finishes downloadi
 or is moved into Downloads, dlorg moves it into a matching folder inside `~/Downloads/Sorted/`.
 It runs in the background as a systemd user service, so you never have to start it yourself.
 
-<!-- screenshot: messy Downloads before / sorted folders after -->
+**Before:** example of a messy Downloads folder. (Staged in a separate test folder, because in the real Downloads dlorg sorts files the moment they arrive.)
+![messy screenshot, placeholder](screenshots/Messy-pictures-2026-10-08.png)
+
+**after:** dlorg sorted everything into Sorted
+![sorted files](screenshots/Sorted-folder-2026-10-08.png)
 
 ## Where files go
 
@@ -20,7 +24,10 @@ It runs in the background as a systemd user service, so you never have to start 
 | Code | sh, py, js, html, css, c, json, cpp, cs |
 | Other | everything else, and files with no extension |
 
-Folders are created automatically the first time they're needed, and recreated if deleted.
+Folders are created automatically when needed, and recreated if deleted.
+
+**Sorted:** the Sorted folder with its sub folders organized
+![Sorted folder with its sub-folders named](screenshots/Sorted-sub-folders-2026-10-08.png)
 
 ## Requirements
 
@@ -52,9 +59,8 @@ Folders are created automatically the first time they're needed, and recreated i
 
 ## Using it
 
-Nothing to do: download or move a file into `~/Downloads` and it gets sorted.
-
-![cat.jpg and testing123.png sorted into "Pictures"]()
+**Sorting:** download or move a file into `~/Downloads` and it gets sorted.
+![cat.jpg and testing123.png sorted into "Pictures"](screenshots/Sorted-pictures-2026-10-08.png)
 
 ## Checking that it runs
 
