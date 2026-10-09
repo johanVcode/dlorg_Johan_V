@@ -7,7 +7,7 @@ It runs in the background as a systemd user service, so you never have to start 
 **Before:** example of a messy Downloads folder. (Staged in a separate test folder, because in the real Downloads dlorg sorts files the moment they arrive.)
 ![messy screenshot, placeholder](screenshots/Messy-pictures-2026-10-08.png)
 
-**after:** dlorg sorted everything into Sorted
+**After:** dlorg sorted everything into Sorted
 ![sorted files](screenshots/Sorted-folder-2026-10-08.png)
 
 ## Where files go
@@ -66,9 +66,9 @@ If a file with the same name already exists, the new one gets a number. cat.jpg 
 ## Checking that it runs
 
 - Status: `systemctl --user status dlorg` → should say **active (running)**
-- Live log: `journalctl --user -u dlorg -f` (Ctrl+C to exit)
 
-<!-- screenshot: status output -->
+**STATUS:** information about the daemon running
+![Status log in ssh powershell terminal](screenshots/Status-log-2026-10-09.png)
 
 ## Stopping / removing
 
@@ -92,4 +92,4 @@ systemctl --user restart dlorg
 - Sorting is by extension only (a MIME fallback is planned).
 
 ## Dev notes
-See [Notes.md](Notes.md) for how dlorg was built, my decisions, and what i learned.
+See [Notes.md](Notes.md) for how dlorg was built, my decisions, and what I learned.
