@@ -50,8 +50,6 @@ done
 
 mv "$source_folder/$file_name" "$destination_folder/$basket_folder/$candidate_name"
 
-
-
 }
 
 #echo statement - the script is running
@@ -69,8 +67,3 @@ done
 ##file_sorting "song.mp3"
 ##file_sorting "README"
 ##file_sorting "data.data"
-
-# monitor folder and have bouncer sort
-# make sure the basket exist, if not make basket on demand
-# same name check, if same name add numeric value to sort same name files.
-# move the files
